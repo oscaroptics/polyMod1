@@ -8,27 +8,32 @@ const hre = require("hardhat");
 const fxRootContractABI = require("../fxRootContractABI.json");
 const tokenContractJSON = require("../artifacts/contracts/MetaToken.sol/MetaToken.json");
 
-const tokenAddress = ""; // place your erc20 contract address here
+const tokenAddress = "0xeE9a0d7F1a169611F57E81De3e80FFc53d51341A"; // place your erc20 contract address here
 const tokenABI = tokenContractJSON.abi;
-const fxERC20RootAddress = "0x3658ccFDE5e9629b0805EB06AaCFc42416850961";
-const walletAddress = ""; // place your public address for your wallet here
+const FxERC721RootAddress = "0xF9bc4a80464E48369303196645e876c8C7D972de";
+const walletAddress = "0x35FDBa668B979B424f05bd8BDB059fB5E87AFb1d"; // place your public address for your wallet here
 
 async function main() {
 
     const tokenContract = await hre.ethers.getContractAt(tokenABI, tokenAddress);
-    const fxContract = await hre.ethers.getContractAt(fxRootContractABI, fxERC20RootAddress);
+    const fxContract = await hre.ethers.getContractAt(fxRootContractABI, FxERC721RootAddress);
 
-    const approveTx = await tokenContract.approve(fxERC20RootAddress, 500);
-    await approveTx.wait();
+    const totalNFTs = await tokenContract.totalSupply();
 
-    console.log('Approval confirmed');
+    for(let i=0; i<totalNFTs; i++){
+      const approveTx = await tokenContract.approve(FxERC721RootAddress, i);
+      await approveTx.wait();
+      console.log('${i} NFT is approved');
+    }
+    console.log("all the NFTs approved");
 
+    for(let i=0; i<totalNFTs; i++){
+      const depositTx = await fxContract.deposit(tokenAddress, walletAddress, i, "0x6556");
+      await depositTx.wait();
+      console.log('${i} NFT is deposited');
+    }
 
-    const depositTx = await fxContract.deposit(tokenAddress, walletAddress, 500, "0x6556");
-    await depositTx.wait();
-
-    console.log("Tokens deposited");
-  
+    console.log("all the NFTs are successfully deposited");
   }
   
   // We recommend this pattern to be able to use async/await everywhere
