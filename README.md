@@ -1,6 +1,11 @@
 # ERC20 Goerli to Mumbai Bridge Using fxPortal
 This project demonstrates how to use the fxPortal contracts to transfer ERC20 tokens from Goerli to Mumbai.
 
+## Description
+
+This assignment is a simple bunch of contracts which will be used to deploy our MetaToken contract on ERC721A. ALso, minting the amount of NFTs in contract. 
+we have sent that NFTs from goerli to mumbai network in polygon. we have approved, deposited and atlast we have checked the balance of NFTs on mumbai testnet.
+
 ### Steps for Bridging
 
 1. Run npm i to install dependencies
@@ -14,3 +19,7 @@ This project demonstrates how to use the fxPortal contracts to transfer ERC20 to
 9. Use polyscan.com to check your account for the tokens. Once they arrive, you can click on the transaction to get the contract address for polygon.
 10. Use this polygon contract address for your getBalance script's tokenAddress
 11. Run npx hardhat run scripts/getBalance.js --network mumbai to see the new polygon balance
+
+
+## Author
+A R Ashutosh
